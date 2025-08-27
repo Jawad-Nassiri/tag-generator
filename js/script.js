@@ -1,7 +1,8 @@
 const $ = document,
-  tagsContainer = $.querySelector('ul'),
-  tagCountElem = $.querySelector('.tag-count'),
-  inputElem = $.querySelector('input');
+    tagsContainer = $.querySelector('ul'),
+    tagCountElem = $.querySelector('.tag-count'),
+    inputElem = $.querySelector('input'),
+    removeAllTagsBtn = $.querySelector('.remove-btn');
 
 let tags = [];
 const MAX = 10;
@@ -54,9 +55,19 @@ inputElem.addEventListener('keydown', (e) => {
 const removeTagHandler = (e) => {
     let mainParentElem = e.target.parentElement;
     let tagValue = mainParentElem.firstChild.textContent.trim();
-    tags = tags.filter(tag => tag !== tagValue);
     mainParentElem.remove();
+    tags = tags.filter(tag => tag !== tagValue);
     tagCountElem.textContent = String(tags.length);
+}
+
+const removeAllTagsHandler = () => {
+    tags = [];
+    let tagElements = document.querySelectorAll('li');
+    tagElements.forEach(tag => {
+        tag.remove();
+    });
+    
+    tagCountElem.textContent = 0;
 }
 
 document.addEventListener('click', (e) => {
@@ -64,3 +75,6 @@ document.addEventListener('click', (e) => {
         removeTagHandler(e);
     }
 })
+
+
+removeAllTagsBtn.addEventListener('click', removeAllTagsHandler);
